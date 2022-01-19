@@ -1,20 +1,21 @@
 #include QMK_KEYBOARD_H
 #include "keymap_finnish.h"
 
-#define _BASE 0
-#define _RAISE 1
-#define _LOWER 2
+#define _BASE   0
+#define _SHIFT  1
+#define _LOWER  2
 #define _LOWER2 3
-#define _GUI 4
+#define _RAISE  4
+#define _GUI    5
 
 #define OSX_PIPE LOPT(FI_7)
 #define OSX_BSLS S(LOPT(FI_7))
 #define OSX_LBRC S(LOPT(FI_8))
 #define OSX_RBRC S(LOPT(FI_9))
 
-#define MSHFT_SPC RSFT_T(KC_SPC)
 #define MCTL_TAB  LCTL_T(KC_TAB)
 #define MGUI 	  LM(_GUI, MOD_LGUI)
+#define SHIFT_SPC LT(_SHIFT, KC_SPC)
 #define LOWER_ESC LT(_LOWER, KC_ESC)
 #define RAISE_ENT LT(_RAISE, KC_ENT)
 
@@ -44,9 +45,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	_______,  FI_A,   FI_S,    FI_D,    FI_F,    FI_G,                   FI_H,    FI_J,    FI_K,    FI_L,    FI_ODIA, FI_ADIA,
         _______,  FI_Z,   FI_X,    FI_C,    FI_V,    FI_B,                   FI_N,    FI_M,    FI_COMM, FI_DOT,  FI_MINS, _______,
                           KC_VOLD, KC_VOLU,                                                    KC_MPRV, KC_MNXT,
-                                            LOWER_ESC, MCTL_TAB, 	     RAISE_ENT, MSHFT_SPC,
-                                            KC_MPLY,   MGUI,         	     KC_BSPC, KC_DEL,
-                                            _______,   _______,              _______, _______
+                                            LOWER_ESC, MCTL_TAB, 	     RAISE_ENT, SHIFT_SPC,
+                                            KC_MPLY,   MGUI,         	     KC_BSPC,   KC_DEL,
+                                            _______,   _______,              _______,   _______
+    ),
+
+    [_SHIFT] = LAYOUT(
+	_______, S(FI_Q), S(FI_W),  S(FI_E),  S(FI_R), S(FI_T),			S(FI_Y), S(FI_U), S(FI_I), S(FI_O),  S(FI_P),    S(FI_ARNG),
+	_______, S(FI_A), S(FI_S),  S(FI_D),  S(FI_F), S(FI_G),			S(FI_H), S(FI_J), S(FI_K), S(FI_L),  S(FI_ODIA), S(FI_ADIA),
+	_______, S(FI_Z), S(FI_X),  S(FI_C),  S(FI_V), S(FI_B),			S(FI_N), S(FI_M), _______, _______,  _______,    _______,
+	                  _______,  _______, 							  _______, _______,
+	                                      MO(_LOWER2), S(KC_ENT), 	        _______, _______,
+	                                      _______,   _______,      	        _______, _______,
+	                                      _______,   _______,               _______, _______
     ),
 
     [_LOWER] = LAYOUT(
