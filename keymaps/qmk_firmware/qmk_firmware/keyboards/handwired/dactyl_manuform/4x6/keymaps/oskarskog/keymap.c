@@ -61,13 +61,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_LOWER] = LAYOUT(
-        _______,  _______, FI_QUOT, _______, FI_EURO, FI_PERC,               OSX_PIPE, OSX_LBRC, OSX_RBRC, FI_PLUS, _______, _______,
-        _______,  FI_EXLM, FI_DQUO, FI_HASH, FI_DLR,  FI_AMPR,               FI_SLSH,  FI_LPRN,  FI_RPRN,  FI_EQL,  FI_ASTR, _______,
-        _______,  FI_TILD, FI_AT,   _______, _______, _______,               OSX_BSLS, FI_QUES,  FI_SCLN,  FI_COLN, FI_UNDS, _______,
+        _______,  _______, FI_QUOT, _______,  FI_EURO,    FI_PERC,            OSX_PIPE, OSX_LBRC, OSX_RBRC, FI_PLUS, _______, _______,
+        _______,  FI_EXLM, FI_DQUO, FI_HASH,  FI_DLR,     FI_AMPR,            FI_SLSH,  FI_LPRN,  FI_RPRN,  FI_EQL,  FI_ASTR, _______,
+        _______,  FI_TILD, FI_AT, C(S(FI_C)), C(S(FI_V)), _______,            OSX_BSLS, FI_QUES,  FI_SCLN,  FI_COLN, FI_UNDS, _______,
                            _______, _______,                                                      _______,  _______,
-                                             _______, _______,               KC_BSPC, MO(_LOWER2),
-                                             _______, _______,               _______, _______,
-                                             RESET,   _______,               _______, _______
+                                              _______,    _______,            KC_BSPC, MO(_LOWER2),
+                                              _______,    _______,            _______, _______,
+                                              QK_BOOT,    _______,            _______, _______
     ),
 
     [_LOWER2] = LAYOUT(
@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______,                                                   _______, _______,
                                             KC_BSPC, _______,               _______, _______,
                                             _______, _______,               _______, _______,
-                                            _______, _______,               _______, RESET
+                                            _______, _______,               _______, QK_BOOT
     ),
 
     [_GUI] = LAYOUT(
