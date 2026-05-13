@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "keymap_finnish.h"
 
 #define _BASE   0
 #define _SHIFT  1
@@ -8,10 +7,28 @@
 #define _RAISE  4
 #define _GUI    5
 
-#define OSX_PIPE LOPT(FI_7)
-#define OSX_BSLS S(LOPT(FI_7))
-#define OSX_LBRC S(LOPT(FI_8))
-#define OSX_RBRC S(LOPT(FI_9))
+// Unicode map indices
+enum unicode_names {
+    U_ARNG,  // å
+    U_ARNGU, // Å
+    U_ADIA,  // ä
+    U_ADIAU, // Ä
+    U_ODIA,  // ö
+    U_ODIAU, // Ö
+    U_TILD,  // ~
+    U_GRV,   // `
+};
+
+const uint32_t PROGMEM unicode_map[] = {
+    [U_ARNG]  = 0x00E5, // å
+    [U_ARNGU] = 0x00C5, // Å
+    [U_ADIA]  = 0x00E4, // ä
+    [U_ADIAU] = 0x00C4, // Ä
+    [U_ODIA]  = 0x00F6, // ö
+    [U_ODIAU] = 0x00D6, // Ö
+    [U_TILD]  = 0x007E, // ~
+    [U_GRV]   = 0x0060, // `
+};
 
 #define MCTL_TAB  LCTL_T(KC_TAB)
 #define MGUI 	  LM(_GUI, MOD_LGUI)
@@ -32,8 +49,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *               +-------------+-------------+                             +-------------+-------------+
      *                             |      |      |                             |      |      |
      *                             |------+------|                             |------+------|
-     *                             |      |      |                             |      |      |
-     *                             +-------------+                             +-------------+
      *                                           +-------------+ +-------------+
      *                                           |      |      | |      |      |
      *                                           |------+------| |------+------|
@@ -41,9 +56,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                           +-------------+ +-------------+
      */
     [_BASE] = LAYOUT(
-        _______,  FI_Q,   FI_W,    FI_E,    FI_R,    FI_T,                   FI_Y,    FI_U,    FI_I,    FI_O,    FI_P,    FI_ARNG,
-        _______,  FI_A,   FI_S,    FI_D,    FI_F,    FI_G,                   FI_H,    FI_J,    FI_K,    FI_L,    FI_ODIA, FI_ADIA,
-        _______,  FI_Z,   FI_X,    FI_C,    FI_V,    FI_B,                   FI_N,    FI_M,    FI_COMM, FI_DOT,  FI_MINS, _______,
+        _______,  KC_Q,   KC_W,    KC_E,    KC_R,    KC_T,                   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,                  UP(U_ARNG, U_ARNGU),
+        _______,  KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                   KC_H,    KC_J,    KC_K,    KC_L,    UP(U_ODIA, U_ODIAU),   UP(U_ADIA, U_ADIAU),
+        _______,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,                   KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_MINS,               _______,
                           KC_VOLD, KC_VOLU,                                                    KC_MPRV, KC_MNXT,
                                             LOWER_ESC, MCTL_TAB,             RAISE_ENT, SHIFT_SPC,
                                             KC_MPLY,   MGUI,                 KC_BSPC,   KC_DEL,
@@ -51,9 +66,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_SHIFT] = LAYOUT(
-        _______, S(FI_Q), S(FI_W),  S(FI_E),  S(FI_R), S(FI_T),           S(FI_Y), S(FI_U), S(FI_I), S(FI_O),  S(FI_P),    S(FI_ARNG),
-        _______, S(FI_A), S(FI_S),  S(FI_D),  S(FI_F), S(FI_G),           S(FI_H), S(FI_J), S(FI_K), S(FI_L),  S(FI_ODIA), S(FI_ADIA),
-        _______, S(FI_Z), S(FI_X),  S(FI_C),  S(FI_V), S(FI_B),           S(FI_N), S(FI_M), _______, _______,  _______,    _______,
+        _______, S(KC_Q), S(KC_W),  S(KC_E),  S(KC_R), S(KC_T),           S(KC_Y), S(KC_U), S(KC_I), S(KC_O),  S(KC_P),             UM(U_ARNGU),
+        _______, S(KC_A), S(KC_S),  S(KC_D),  S(KC_F), S(KC_G),           S(KC_H), S(KC_J), S(KC_K), S(KC_L),  UM(U_ODIAU),         UM(U_ADIAU),
+        _______, S(KC_Z), S(KC_X),  S(KC_C),  S(KC_V), S(KC_B),           S(KC_N), S(KC_M), _______, _______,  _______,             _______,
                           _______,  _______,                                                _______, _______,
                                               MO(_LOWER2), S(KC_ENT),     _______, _______,
                                               _______,   _______,         _______, _______,
@@ -61,18 +76,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_LOWER] = LAYOUT(
-        _______,  _______, FI_QUOT, _______,  FI_EURO,    FI_PERC,            OSX_PIPE, OSX_LBRC, OSX_RBRC, FI_PLUS, _______, _______,
-        _______,  FI_EXLM, FI_DQUO, FI_HASH,  FI_DLR,     FI_AMPR,            FI_SLSH,  FI_LPRN,  FI_RPRN,  FI_EQL,  FI_ASTR, _______,
-        _______,  FI_TILD, FI_AT, C(S(FI_C)), C(S(FI_V)), _______,            OSX_BSLS, FI_QUES,  FI_SCLN,  FI_COLN, FI_UNDS, _______,
-                           _______, _______,                                                      _______,  _______,
+        _______,  _______, KC_QUOT, _______,  _______,    KC_PERC,            KC_PIPE,  KC_LCBR, KC_RCBR, KC_PLUS, _______, _______,
+        _______,  KC_EXLM, KC_DQUO, KC_HASH,  KC_DLR,     KC_AMPR,            KC_SLSH,  KC_LPRN, KC_RPRN, KC_EQL,  KC_ASTR, _______,
+        _______,  UM(U_TILD), KC_AT, C(S(KC_C)), C(S(KC_V)), _______,            KC_BSLS,  KC_QUES, KC_SCLN, KC_COLN, KC_UNDS, _______,
+                           _______, _______,                                                     _______,  _______,
                                               _______,    _______,            KC_BSPC, MO(_LOWER2),
                                               _______,    _______,            _______, _______,
                                               QK_BOOT,    _______,            _______, _______
     ),
 
     [_LOWER2] = LAYOUT(
-        _______, _______, _______, _______, _______, _______,               _______, FI_LABK, FI_RABK, _______, _______, _______,
-        _______, _______, FI_GRV,  _______, FI_CIRC, _______,               _______, FI_LBRC, FI_RBRC, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,               _______, KC_LABK, KC_RABK, _______, _______, _______,
+        _______, _______, UM(U_GRV), _______, KC_CIRC, _______,               _______, KC_LBRC, KC_RBRC, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,               _______, _______, _______, _______, _______, _______,
                           _______, _______,                                                   _______, _______,
                                             _______, _______,               _______, _______,
@@ -81,9 +96,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_RAISE] = LAYOUT(
-        _______, _______, FI_7,    FI_8,    FI_9,    FI_COMM,               _______, KC_HOME, KC_END,  _______,  _______, _______,
-        _______, FI_0,    FI_4,    FI_5,    FI_6,    FI_DOT,                KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,
-        _______, _______, FI_1,    FI_2,    FI_3,    FI_SLSH,               _______, _______, _______, _______,  _______, _______,
+        _______, _______, KC_7,    KC_8,    KC_9,    KC_COMM,               _______, KC_HOME, KC_END,  _______,  _______, _______,
+        _______, KC_0,    KC_4,    KC_5,    KC_6,    KC_DOT,                KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,
+        _______, _______, KC_1,    KC_2,    KC_3,    KC_SLSH,               _______, _______, _______, _______,  _______, _______,
                           _______, _______,                                                   _______, _______,
                                             KC_BSPC, _______,               _______, _______,
                                             _______, _______,               _______, _______,
@@ -92,11 +107,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_GUI] = LAYOUT(
         _______, _______, _______, _______, _______, _______,               _______, _______, _______,   _______, _______, _______,
-        _______, _______, FI_GRV,  _______, _______, _______,               _______, KC_TAB,  S(KC_TAB), _______, _______, _______,
+        _______, _______, UM(U_GRV), _______, _______, _______,               _______, KC_TAB,  S(KC_TAB), _______, _______, _______,
         _______, _______, _______, _______, _______, _______,               _______, _______, _______,   _______, _______, _______,
                           _______, _______,                                                   _______,   _______,
-                                            _______, _______,               C(FI_Q), _______,
-                                            _______, _______,               S(FI_4), _______,
+                                            _______, _______,               C(KC_Q), _______,
+                                            _______, _______,               S(KC_4), _______,
                                             _______, _______,               _______, _______
     )
 };

@@ -30,3 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // tap hold configuration
 #define PERMISSIVE_HOLD
+
+// Unicode input mode (requires "Unicode Hex Input" enabled in macOS Input Sources)
+#define UNICODE_SELECTED_MODES UNICODE_MODE_MACOS
